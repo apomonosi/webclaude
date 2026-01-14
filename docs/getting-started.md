@@ -235,6 +235,321 @@ def test_delete_task(client):
     assert get_response.status_code == 404
 ```
 
+### Step 5: Running and Testing in the Environment
+
+One of the powerful features of Claude Code Web is that each repository session comes with its own sandboxed environment. You can actually run and test code within this environment!
+
+#### Understanding the Environment
+
+Claude Code Web provides:
+
+- **Isolated Cloud Container**: Your code runs in a Google Gvisor-based sandbox
+- **Pre-installed Tools**: Common languages and tools (Python, Node.js, etc.)
+- **Package Installation**: You can install dependencies via npm, pip, etc.
+- **Command Execution**: Run tests, builds, and other shell commands
+- **Temporary Storage**: Files persist during your session
+
+!!! info "Environment Lifecycle"
+    The environment is created when you start working with a repository and persists throughout your session. Once you close the session, the environment is cleaned up.
+
+#### Example: Running the Task Manager API
+
+Let's continue with our Flask API example and actually run it in the environment:
+
+!!! example "Running the Application"
+    "Can you run this Flask application and test it?"
+
+Claude can execute commands in the environment:
+
+```bash
+# Install dependencies
+pip install flask pytest
+
+# Run the application in the background
+python app.py &
+
+# Wait a moment for the server to start
+sleep 2
+
+# Test the API with curl
+curl -X POST http://localhost:5000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "My First Task", "description": "Testing the API"}'
+
+# Get all tasks
+curl http://localhost:5000/tasks
+```
+
+**Expected Output:**
+```json
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "title": "My First Task",
+    "description": "Testing the API",
+    "completed": false,
+    "created_at": "2026-01-14T10:30:00"
+  }
+]
+```
+
+#### Example: Running Tests
+
+You can run the test suite we created:
+
+!!! example "Running Tests"
+    "Run the pytest tests and show me the results"
+
+```bash
+# Run all tests with verbose output
+pytest test_app.py -v
+
+# Run with coverage report
+pytest test_app.py --cov=app --cov-report=term-missing
+```
+
+**Example Output:**
+```
+test_app.py::test_create_task PASSED                    [ 16%]
+test_app.py::test_create_task_missing_title PASSED      [ 33%]
+test_app.py::test_get_all_tasks PASSED                  [ 50%]
+test_app.py::test_update_task PASSED                    [ 66%]
+test_app.py::test_delete_task PASSED                    [ 83%]
+test_app.py::test_get_task_not_found PASSED             [100%]
+
+---------- coverage: platform linux, python 3.10.0 -----------
+Name      Stmts   Miss  Cover   Missing
+---------------------------------------
+app.py       45      2    96%   12-13
+---------------------------------------
+TOTAL        45      2    96%
+
+6 passed in 0.43s
+```
+
+#### Example: Testing Different Scenarios
+
+You can test edge cases and error conditions:
+
+```bash
+# Test with invalid JSON
+curl -X POST http://localhost:5000/tasks \
+  -H "Content-Type: application/json" \
+  -d 'invalid json'
+
+# Test with missing required field
+curl -X POST http://localhost:5000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"description": "No title provided"}'
+
+# Test getting non-existent task
+curl http://localhost:5000/tasks/invalid-id
+```
+
+#### Setting Up Complex Environments
+
+For more complex projects, you can set up the full environment:
+
+!!! example "Node.js + React Project Setup"
+    ```bash
+    # Install backend dependencies
+    cd backend
+    npm install
+
+    # Install frontend dependencies
+    cd ../frontend
+    npm install
+
+    # Run tests
+    npm test
+
+    # Build the project
+    npm run build
+
+    # Check for linting errors
+    npm run lint
+    ```
+
+#### Automating Environment Setup with Hooks
+
+You can automate environment setup using SessionStart hooks in `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "setup.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**setup.sh:**
+```bash
+#!/bin/bash
+echo "Setting up environment..."
+
+# Install Python dependencies
+if [ -f requirements.txt ]; then
+  pip install -r requirements.txt
+fi
+
+# Install Node dependencies
+if [ -f package.json ]; then
+  npm install
+fi
+
+# Run database migrations
+if [ -f migrate.sh ]; then
+  ./migrate.sh
+fi
+
+echo "Environment ready!"
+```
+
+#### What You Can Do in the Environment
+
+✅ **Supported Operations:**
+
+- Run tests (pytest, jest, mocha, etc.)
+- Execute builds (npm build, cargo build, etc.)
+- Install packages (pip, npm, cargo, gem, etc.)
+- Run linters and formatters (eslint, black, prettier, etc.)
+- Execute scripts and commands
+- Test CLI tools and applications
+- Run development servers (limited - background processes)
+- Validate configuration files
+- Generate documentation
+- Run database migrations (with SQLite or in-memory databases)
+
+❌ **Limitations:**
+
+- No persistent storage between sessions
+- No external network access (in most cases)
+- No GUI applications
+- Limited long-running background processes
+- No access to external databases or services
+- Resource constraints (CPU, memory, disk)
+
+#### Best Practices for Environment Usage
+
+1. **Test Before Committing**: Always run tests in the environment before finalizing code
+
+2. **Validate Dependencies**: Check that all required packages install correctly
+   ```bash
+   pip install -r requirements.txt --dry-run
+   ```
+
+3. **Check Build Output**: Verify builds complete without errors
+   ```bash
+   npm run build 2>&1 | tee build.log
+   ```
+
+4. **Use Linters**: Catch issues early with automated linting
+   ```bash
+   flake8 src/ tests/
+   eslint src/**/*.js
+   ```
+
+5. **Run Full Test Suite**: Don't just test happy paths
+   ```bash
+   pytest --cov=. --cov-report=html
+   npm test -- --coverage
+   ```
+
+#### Debugging in the Environment
+
+When things don't work, use the environment for debugging:
+
+```bash
+# Check Python version
+python --version
+
+# Verify package installation
+pip list | grep flask
+
+# Check for syntax errors
+python -m py_compile app.py
+
+# Run with debug output
+python -v app.py
+
+# Check environment variables
+env | grep -i python
+```
+
+#### Example: Full Development Workflow
+
+Here's a complete workflow using the environment:
+
+```bash
+# 1. Setup
+pip install -r requirements.txt
+
+# 2. Run linter
+flake8 app.py test_app.py
+
+# 3. Format code
+black app.py test_app.py
+
+# 4. Run tests with coverage
+pytest --cov=app --cov-report=term-missing test_app.py
+
+# 5. Type checking (if using type hints)
+mypy app.py
+
+# 6. Security check
+bandit -r app.py
+
+# 7. Run the application
+python app.py
+```
+
+#### Continuous Integration Simulation
+
+You can simulate CI/CD pipelines:
+
+```bash
+#!/bin/bash
+# ci-test.sh
+
+set -e  # Exit on any error
+
+echo "Running CI checks..."
+
+echo "1. Installing dependencies..."
+pip install -r requirements.txt
+pip install pytest coverage flake8 black mypy
+
+echo "2. Code formatting check..."
+black --check app.py test_app.py
+
+echo "3. Linting..."
+flake8 app.py test_app.py
+
+echo "4. Type checking..."
+mypy app.py
+
+echo "5. Running tests..."
+pytest --cov=app --cov-report=term test_app.py
+
+echo "6. Coverage check (minimum 80%)..."
+pytest --cov=app --cov-fail-under=80 test_app.py
+
+echo "✅ All CI checks passed!"
+```
+
+!!! tip "Pro Tip"
+    Ask Claude to create a comprehensive test script like the one above for your project. It ensures consistency and catches issues before they reach production.
+
 ## Understanding the Workflow
 
 This demo illustrates the typical Claude Code Web workflow:
