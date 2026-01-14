@@ -81,6 +81,8 @@ nav:
   - Introduction: introduction.md
   - Getting Started:
       - Simple Demo: getting-started.md
+  - Configuration:
+      - Configuration Files: configuration.md
   - User Guide:
       - Effective Usage: effective-usage.md
       - Best Practices: best-practices.md
@@ -89,6 +91,8 @@ nav:
       - Non-Code Examples: non-code-examples.md
   - Advanced:
       - Advanced Usage: advanced-usage.md
+  - Resources:
+      - External Links: resources.md
 
 # Plugins
 plugins:
