@@ -1,0 +1,107 @@
+site_name: Claude Code Web Documentation
+site_description: Comprehensive documentation for Claude Code Web - AI-powered coding assistant
+site_author: Claude Code Team
+site_url: https://webclaude.docs
+dev_addr:  0.0.0.0:8005
+
+# Repository
+repo_name: webclaude
+repo_url: https://github.com/yourusername/webclaude
+
+# Theme Configuration
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+
+  icon:
+    repo: fontawesome/brands/github
+
+# Extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - def_list
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+
+# Navigation
+nav:
+  - Home: index.md
+  - Introduction: introduction.md
+  - Getting Started:
+      - Simple Demo: getting-started.md
+  - User Guide:
+      - Effective Usage: effective-usage.md
+      - Best Practices: best-practices.md
+  - Use Cases:
+      - Research Applications: research-use-cases.md
+      - Non-Code Examples: non-code-examples.md
+  - Advanced:
+      - Advanced Usage: advanced-usage.md
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+
+# Extra
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername/webclaude
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/yourusername
+
+# Copyright
+copyright: Copyright &copy; 2026 Claude Code Web Documentation
