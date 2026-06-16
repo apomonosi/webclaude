@@ -105,6 +105,14 @@ extra_css:
 plugins:
   - search:
       lang: en
+  - kroki:
+      ServerURL: https://kroki.io
+      EnableBlockDiag: true
+      Enablebpmn: true
+      EnableExcalidraw: false
+      EnableMermaid: false
+      FencePrefix: ""
+      DownloadImages: false
 
 # Extra
 extra:
