@@ -1,12 +1,12 @@
 site_name: Claude Code Web Documentation
 site_description: Comprehensive documentation for Claude Code Web - AI-powered coding assistant
 site_author: Claude Code Team
-site_url: https://webclaude.docs
+site_url: https://apomonosi.github.io/webclaude/
 dev_addr:  0.0.0.0:8005
 
 # Repository
-repo_name: webclaude
-repo_url: https://github.com/yourusername/webclaude
+repo_name: apomonosi/webclaude
+repo_url: https://github.com/apomonosi/webclaude
 
 # Theme Configuration
 theme:
@@ -103,9 +103,7 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername/webclaude
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/yourusername
+      link: https://github.com/apomonosi/webclaude
 
 # Copyright
 copyright: Copyright &copy; 2026 Claude Code Web Documentation
