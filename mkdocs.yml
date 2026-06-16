@@ -14,18 +14,21 @@ theme:
   palette:
     # Light mode
     - scheme: default
-      primary: indigo
+      primary: blue
       accent: blue
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Dark mode
     - scheme: slate
-      primary: indigo
+      primary: blue
       accent: blue
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+  font:
+    text: Outfit
+    code: JetBrains Mono
 
   features:
     - navigation.instant
@@ -93,6 +96,10 @@ nav:
       - Advanced Usage: advanced-usage.md
   - Resources:
       - External Links: resources.md
+
+# Extra CSS
+extra_css:
+  - stylesheets/extra.css
 
 # Plugins
 plugins:
