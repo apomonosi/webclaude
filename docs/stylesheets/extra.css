@@ -1,0 +1,392 @@
+/*
+  Taste-Skill Design System
+  Design Read: Developer documentation, technical audience, Linear-style minimalist
+  Dials: DESIGN_VARIANCE=6 / MOTION_INTENSITY=3 / VISUAL_DENSITY=5
+  Palette: Slate neutral base + Cobalt Blue accent
+  Typography: Outfit (UI) + JetBrains Mono (code)
+*/
+
+/* ── Reduced motion (MOTION_INTENSITY=3 mandates this) ─────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Single corner-radius system (applied everywhere) ──────────────────── */
+:root {
+  --ts-r-xs: 3px;
+  --ts-r-sm: 5px;
+  --ts-r-md: 8px;
+  --ts-r-lg: 12px;
+  --ts-r-xl: 16px;
+}
+
+/* ── Light mode ─────────────────────────────────────────────────────────── */
+[data-md-color-scheme="default"] {
+  /* Cobalt blue accent — saturation ~78%, below the 80% cap */
+  --md-primary-fg-color:          #2563eb;
+  --md-primary-fg-color--light:   #3b82f6;
+  --md-primary-fg-color--dark:    #1d4ed8;
+  --md-primary-bg-color:          #ffffff;
+  --md-accent-fg-color:           #0284c7;
+  --md-accent-fg-color--transparent: rgba(37, 99, 235, 0.08);
+
+  /* Slate neutral base — not beige/brass/oxblood */
+  --md-default-bg-color:          #f8fafc;
+  --md-default-fg-color:          #0f172a;
+  --md-default-fg-color--light:   #64748b;
+  --md-default-fg-color--lighter: #94a3b8;
+  --md-default-fg-color--lightest:#e2e8f0;
+
+  /* Code */
+  --md-code-bg-color:             #f1f5f9;
+  --md-code-fg-color:             #1e293b;
+  --md-code-hl-color:             rgba(37, 99, 235, 0.1);
+
+  /* Footer */
+  --md-footer-bg-color:           #1e293b;
+  --md-footer-bg-color--dark:     #0f172a;
+  --md-footer-fg-color:           #94a3b8;
+  --md-footer-fg-color--light:    #cbd5e1;
+  --md-footer-fg-color--lighter:  #475569;
+}
+
+/* ── Dark mode (slate scheme) ───────────────────────────────────────────── */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:          #3b82f6;
+  --md-primary-fg-color--light:   #60a5fa;
+  --md-primary-fg-color--dark:    #2563eb;
+  --md-primary-bg-color:          #0f172a;
+  --md-accent-fg-color:           #38bdf8;
+  --md-accent-fg-color--transparent: rgba(59, 130, 246, 0.1);
+
+  --md-default-bg-color:          #0f172a;
+  --md-default-fg-color:          #f1f5f9;
+  --md-default-fg-color--light:   #94a3b8;
+  --md-default-fg-color--lighter: #475569;
+  --md-default-fg-color--lightest:#1e293b;
+
+  --md-code-bg-color:             #1e293b;
+  --md-code-fg-color:             #e2e8f0;
+  --md-code-hl-color:             rgba(59, 130, 246, 0.15);
+
+  --md-footer-bg-color:           #020617;
+  --md-footer-bg-color--dark:     #020617;
+  --md-footer-fg-color:           #64748b;
+  --md-footer-fg-color--light:    #94a3b8;
+  --md-footer-fg-color--lighter:  #334155;
+}
+
+/* ── Header — nav one line, height cap ──────────────────────────────────── */
+.md-header {
+  box-shadow: none;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(248, 250, 252, 0.9);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background-color: rgba(15, 23, 42, 0.9);
+  border-bottom-color: #1e293b;
+}
+
+.md-header__title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+}
+
+/* ── Navigation tabs ────────────────────────────────────────────────────── */
+.md-tabs {
+  box-shadow: none;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  background-color: var(--md-default-bg-color);
+}
+
+[data-md-color-scheme="slate"] .md-tabs {
+  background-color: var(--md-default-bg-color);
+  border-bottom-color: #1e293b;
+}
+
+.md-tabs__link {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.md-tabs__link:hover {
+  opacity: 1;
+}
+
+.md-tabs__link--active {
+  opacity: 1;
+  font-weight: 600;
+}
+
+/* ── Sidebar navigation ─────────────────────────────────────────────────── */
+.md-nav__title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--md-default-fg-color--light);
+  padding: 0.6em 0.75em 0.3em;
+}
+
+.md-nav__link {
+  border-radius: var(--ts-r-xs);
+  padding: 0.28em 0.6em;
+  margin: 1px 0;
+  font-size: 0.8125rem;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.md-nav__link:hover {
+  background-color: var(--md-accent-fg-color--transparent);
+  color: var(--md-primary-fg-color);
+}
+
+.md-nav__link--active {
+  font-weight: 600;
+  color: var(--md-primary-fg-color) !important;
+  background-color: var(--md-accent-fg-color--transparent);
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────── */
+.md-typeset {
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--md-default-fg-color);
+  margin-bottom: 0.35em;
+}
+
+.md-typeset h2 {
+  font-size: 1.3125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  padding-bottom: 0.3em;
+  margin-top: 1.8em;
+}
+
+.md-typeset h3 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h4 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--md-primary-fg-color);
+}
+
+/* ── Links ──────────────────────────────────────────────────────────────── */
+.md-typeset a {
+  color: var(--md-primary-fg-color);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.md-typeset a:hover {
+  color: var(--md-primary-fg-color--light);
+  border-bottom-color: var(--md-primary-fg-color--light);
+}
+
+/* ── Code — inline ───────────────────────────────────────────────────────── */
+.md-typeset code {
+  border-radius: var(--ts-r-xs);
+  font-size: 0.84em;
+  padding: 0.14em 0.38em;
+  background-color: var(--md-code-bg-color);
+  color: var(--md-code-fg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* ── Code — blocks ───────────────────────────────────────────────────────── */
+.md-typeset pre {
+  border-radius: var(--ts-r-md);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.md-typeset pre > code {
+  border-radius: 0;
+  border: none;
+  padding: 1em 1.25em;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+/* Copy button */
+.md-code__content .md-clipboard {
+  border-radius: var(--ts-r-xs);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.md-typeset pre:hover .md-clipboard {
+  opacity: 0.7;
+}
+
+.md-typeset pre:hover .md-clipboard:hover {
+  opacity: 1;
+}
+
+/* ── Tables ─────────────────────────────────────────────────────────────── */
+.md-typeset table:not([class]) {
+  border-radius: var(--ts-r-md);
+  overflow: hidden;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  font-size: 0.84rem;
+  box-shadow: none;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--md-code-bg-color);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 0.6em 1em;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) td {
+  padding: 0.55em 1em;
+  border-color: var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background-color: var(--md-accent-fg-color--transparent);
+}
+
+/* ── Admonitions ─────────────────────────────────────────────────────────── */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: var(--ts-r-md);
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+  font-size: 0.84rem;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  border-radius: var(--ts-r-md) var(--ts-r-md) 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0.55em 0.75em;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.md-typeset .md-button {
+  border-radius: var(--ts-r-md);
+  font-weight: 600;
+  font-size: 0.84rem;
+  letter-spacing: 0.01em;
+  padding: 0.5em 1.25em;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.md-typeset .md-button--primary {
+  background-color: var(--md-primary-fg-color);
+  border-color: var(--md-primary-fg-color);
+  color: #ffffff;
+}
+
+.md-typeset .md-button--primary:hover {
+  background-color: var(--md-primary-fg-color--dark);
+  border-color: var(--md-primary-fg-color--dark);
+  color: #ffffff;
+}
+
+/* ── Search ──────────────────────────────────────────────────────────────── */
+.md-search__form {
+  border-radius: var(--ts-r-lg);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background-color: var(--md-default-bg-color);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.md-search__form:focus-within {
+  border-color: var(--md-primary-fg-color);
+  box-shadow: 0 0 0 3px var(--md-accent-fg-color--transparent);
+}
+
+.md-search__output {
+  border-radius: 0 0 var(--ts-r-lg) var(--ts-r-lg);
+}
+
+/* ── Task lists ──────────────────────────────────────────────────────────── */
+.md-typeset .task-list-item [type="checkbox"] {
+  accent-color: var(--md-primary-fg-color);
+}
+
+/* ── Tags ────────────────────────────────────────────────────────────────── */
+.md-tag {
+  border-radius: var(--ts-r-sm);
+  font-weight: 500;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background-color: var(--md-accent-fg-color--transparent);
+  color: var(--md-primary-fg-color);
+  border: 1px solid var(--md-primary-fg-color--light);
+  padding: 0.15em 0.5em;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.md-footer {
+  background-color: var(--md-footer-bg-color);
+}
+
+.md-footer-meta {
+  background-color: var(--md-footer-bg-color--dark);
+}
+
+.md-footer__link {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.md-footer__link:hover {
+  opacity: 1;
+}
+
+/* ── Content max-width for readability ───────────────────────────────────── */
+.md-content__inner {
+  max-width: 820px;
+}
+
+/* ── Mermaid diagrams ────────────────────────────────────────────────────── */
+.mermaid {
+  border-radius: var(--ts-r-lg);
+  padding: 1.5em;
+  background-color: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
